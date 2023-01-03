@@ -4,7 +4,7 @@ from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort
 from adrc import app, db, bcrypt, mail
 from adrc.forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
-from adrc.models import User
+from adrc.models import User, Event
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
 
@@ -12,12 +12,18 @@ from flask_mail import Message
 @app.route("/home")
 def home():
     '''
-    Route for Homepage of the website
-    :return:
-    render_template(index.html)
+
+    hashed_pass = bcrypt.generate_password_hash("admin@123").decode('utf-8')
+    db.session.add(User(username='admin',email='admin@gmail.com',password=hashed_pass,urole='ADMIN'))
+    db.session.commit()
+    db.create_all()
+
     '''
 
-    return "Index Page"
+    events = Event.query.all()
+
+    return render_template('display/index.html', levent=events[0::2], revent=events[1::2])
+
 
 
 @app.route("/register", methods=['GET', 'POST'])

@@ -35,3 +35,17 @@ class User(db.Model, UserMixin):
 
     def _repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"
+
+class Event(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(150), nullable=False)
+    stime = db.Column(db.String(20), nullable=False)
+    etime = db.Column(db.String(20),nullable=False)
+    venue = db.Column(db.String(150), nullable=False)
+    organizer = db.Column(db.String(150), nullable=False)
+    description = db.Column(db.String(5000), nullable=False)
+    image = db.Column(db.String(150))
+
+
+    def _repr__(self):
+        return f"Event ('{self.title}')"
